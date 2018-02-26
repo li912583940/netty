@@ -8,6 +8,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.HttpRequestDecoder;
+import io.netty.handler.codec.http.HttpResponseEncoder;
 
 /**
  * 描述 []
@@ -59,6 +61,7 @@ public class DiscardServer {
 	            b = b.childHandler(new ChannelInitializer<SocketChannel>() { // (4)
 	                @Override
 	                public void initChannel(SocketChannel ch) throws Exception {
+	                	System.out.println("server  start");  
 	                    ch.pipeline().addLast(new DiscardServerHandler());// demo1.discard
 	                    // ch.pipeline().addLast(new
 	                    // ResponseServerHandler());//demo2.echo
@@ -71,13 +74,13 @@ public class DiscardServer {
 	             * 因此我们被允许设置socket的参数选项比如tcpNoDelay和keepAlive。
 	             * 请参考ChannelOption和详细的ChannelConfig实现的接口文档以此可以对ChannelOptions的有一个大概的认识。
 	             */
-	            b = b.option(ChannelOption.SO_BACKLOG, 128);
+	            b = b.option(ChannelOption.SO_BACKLOG, 1024);
 	            /***
 	             * option()是提供给NioServerSocketChannel用来接收进来的连接。
 	             * childOption()是提供给由父管道ServerChannel接收到的连接，
 	             * 在这个例子中也是NioServerSocketChannel。
 	             */
-	            b = b.childOption(ChannelOption.SO_KEEPALIVE, true);
+	          
 	            /***
 	             * 绑定端口并启动去接收进来的连接
 	             */
@@ -104,6 +107,8 @@ public class DiscardServer {
 	            port = 8080;
 	        }
 	        new DiscardServer(port).run();
-	        System.out.println("server:run()");
+	        System.out.println("server:run() 跑起来");
 	    }
+	    
+	    
 }
